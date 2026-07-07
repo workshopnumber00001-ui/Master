@@ -1,19 +1,21 @@
-FROM sailvessel/ubuntu:latest
+# Use Python 3.12 slim image
+FROM python:3.12-slim
+
+# Set working directory
 WORKDIR /app
-COPY . .
-RUN apt-get update && \
-    apt-get install --no-install-recommends -y --fix-missing \
-    python3 \
-    python3-pip \
-    python3-dev \
-    python3-venv \
+
+# Install system dependencies (ffmpeg is needed for video processing)
+RUN apt-get update && apt-get install -y \
     ffmpeg \
-    aria2 \
+    wget \
     && rm -rf /var/lib/apt/lists/*
-COPY appxdl /usr/local/bin/appxdl
-RUN chmod +x /usr/local/bin/appxdl
-RUN python3 -m venv /venv && \
-    /venv/bin/pip install -r master.txt && \
-    /venv/bin/pip install yt-dlp
-ENV PATH="/usr/local/bin:/venv/bin:$PATH"
-CMD gunicorn main:app --bind 0.0.0.0:$PORT & python3 main.py
+
+# Copy requirements and install Python packages
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application
+COPY . .
+
+# Run the bot (main.py will start the bot and a minimal web server for health checks)
+CMD ["python", "main.py"]
