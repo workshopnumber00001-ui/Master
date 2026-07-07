@@ -1,16 +1,22 @@
-pyrogram
-tgcrypto
+# requirements.txt
+xmltodict 
+requests 
+pycryptodome
+aiofiles
 aiohttp
-requests
+TgCrypto==1.2.5
+pyrofork==2.3.61
+cloudscraper
+bs4
 pytz
-python-dotenv
+motor
+yt-dlp==2024.10.22
+PyJWT
+m3u8
+psutil
+httpx
+Pillow
 Flask>=3.0.0
 gunicorn==20.1.0
-motor
-pymongo
-PyJWT
-httpx
-pycryptodome
-cloudscraper
-beautifulsoup4
 pyromod
+setuptools          # <-- add this line
